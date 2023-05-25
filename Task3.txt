@@ -1,0 +1,195 @@
+package com.app.BMI;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.TextField;
+
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+
+public class BmiApp {
+
+	private JFrame frame;
+	private JTextField heightTF;
+	private JTextField weightTF;
+	private JTextField bmiTF;
+	private JTextField bmiTF2;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BmiApp window = new BmiApp();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public BmiApp() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.getContentPane().setBackground(new Color(255, 255, 255));
+		frame.setBounds(0, 0, 600, 600);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(149, 11, 264, 62);
+		frame.getContentPane().add(panel);
+		
+		JLabel heading = new JLabel("BMI CALCULATOR");
+		heading.setFont(new Font("Tahoma", Font.BOLD, 28));
+		panel.add(heading);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(new Color(255, 255, 255));
+		panel_1.setBounds(74, 113, 423, 439);
+		frame.getContentPane().add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel height = new JLabel("Height : ");
+		height.setFont(new Font("Tahoma", Font.BOLD, 20));
+		height.setBounds(0, 0, 100, 44);
+		panel_1.add(height);
+		
+		heightTF = new JTextField();
+		heightTF.setText("165");
+		heightTF.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		heightTF.setBounds(120, 0, 96, 44);
+		panel_1.add(heightTF);
+		heightTF.setColumns(10);
+		
+		JLabel weight = new JLabel("Weight : ");
+		weight.setFont(new Font("Dialog", Font.BOLD, 20));
+		weight.setBounds(0, 100, 100, 51);
+		panel_1.add(weight);
+		
+		weightTF = new JTextField();
+		weightTF.setText("60");
+		weightTF.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		weightTF.setBounds(120, 100, 96, 51);
+		panel_1.add(weightTF);
+		weightTF.setColumns(10);
+		
+		JLabel heightUnit = new JLabel("cm");
+		heightUnit.setVerticalAlignment(SwingConstants.BOTTOM);
+		heightUnit.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		heightUnit.setBounds(226, 0, 100, 44);
+		panel_1.add(heightUnit);
+		
+		JLabel weightunit = new JLabel("Kg");
+		weightunit.setVerticalAlignment(SwingConstants.BOTTOM);
+		weightunit.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		weightunit.setBounds(226, 100, 100, 51);
+		panel_1.add(weightunit);
+		
+		JLabel result = new JLabel("RESULT : ");
+		result.setBackground(new Color(255, 255, 255));
+		result.setHorizontalAlignment(SwingConstants.CENTER);
+		result.setFont(new Font("Tahoma", Font.BOLD, 20));
+		result.setBounds(0, 296, 423, 44);
+		panel_1.add(result);
+		
+		JLabel bmi = new JLabel("BMI : ");
+		bmi.setFont(new Font("Tahoma", Font.BOLD, 20));
+		bmi.setBounds(0, 367, 61, 44);
+		panel_1.add(bmi);
+		
+		bmiTF = new JTextField();
+		bmiTF.setFont(new Font("Tahoma", Font.BOLD, 20));
+		bmiTF.setColumns(10);
+		bmiTF.setBounds(71, 364, 96, 51);
+		panel_1.add(bmiTF);
+		
+		JLabel bmiUnit = new JLabel("Kg/m^2");
+		bmiUnit.setVerticalAlignment(SwingConstants.BOTTOM);
+		bmiUnit.setFont(new Font("Tahoma", Font.ITALIC, 20));
+		bmiUnit.setBounds(182, 360, 86, 51);
+		panel_1.add(bmiUnit);
+		
+		bmiTF2 = new JTextField();
+		bmiTF2.setHorizontalAlignment(SwingConstants.LEFT);
+		bmiTF2.setFont(new Font("Tahoma", Font.BOLD, 20));
+		bmiTF2.setColumns(10);
+		bmiTF2.setBounds(266, 368, 157, 44);
+		panel_1.add(bmiTF2);
+		
+		JButton btnCalculate = new JButton("Calculate");
+		btnCalculate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+                if(heightTF.getText().isEmpty() || Double.parseDouble(heightTF.getText())<0 ||
+                		
+                		weightTF.getText().isEmpty() || Double.parseDouble(weightTF.getText())<0	)
+                {
+                	JOptionPane.showMessageDialog(null, "Height/Weight Can not be blank/negative");
+                }
+                else
+                {
+                	double h = Double.parseDouble(heightTF.getText());
+    				
+    				h=h/100;
+    				double w = Double.parseDouble(weightTF.getText());
+    				double bmi = w/(h*h);
+    				bmiTF.setText(String.format("%.2f", bmi));
+    				if(bmi<18.5) bmiTF2.setText("Underweight");
+    				else if(18.5<bmi && bmi<24.9) bmiTF2.setText("Normal");
+    				else if(24.9<bmi && bmi<29.9) bmiTF2.setText("Overweight");
+    				else bmiTF2.setText("Obese");
+                }
+			
+			}
+		});
+		btnCalculate.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnCalculate.setBounds(0, 220, 132, 51);
+		panel_1.add(btnCalculate);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				heightTF.setText("165");
+				weightTF.setText("60");
+				bmiTF.setText("");
+				bmiTF2.setText("");
+			}
+		});
+		btnReset.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnReset.setBounds(142, 220, 132, 51);
+		panel_1.add(btnReset);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		btnExit.setFont(new Font("Tahoma", Font.BOLD, 18));
+		btnExit.setBounds(284, 220, 132, 51);
+		panel_1.add(btnExit);
+	}
+}
